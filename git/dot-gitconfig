@@ -1,0 +1,28 @@
+[user]
+	email = kaan@bgenc.net
+	name = Kaan Genc
+	signingkey = A797CF95E35B9AF65CEF27C55E48BE32646A796F
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
+[commit]
+	gpgSign = false
+[tag]
+	gpgsign = true
+[pager]
+	diff = delta
+	log = delta
+	reflog = delta
+	show = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	features = side-by-side line-numbers decorations
+	whitespace-error-style = 22 reverse
+[merge]
+	ff = no
+[alias]
+	stat = status
+[core]
+	editor = code --wait
