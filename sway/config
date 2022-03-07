@@ -60,6 +60,9 @@ exec blueman-applet
 # Screen sharing selection
 exec bash -c "/usr/lib/xdg-desktop-portal -r & /usr/lib/xdg-desktop-portal-wlr"
 
+# kdeconnect
+exec /usr/lib/kdeconnectd
+
 #
 # Example configuration:
 #
