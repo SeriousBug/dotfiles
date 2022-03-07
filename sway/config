@@ -26,8 +26,23 @@ set $menu j4-dmenu-desktop --dmenu='env BEMENU_BACKEND=wayland bemenu --line-hei
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output "eDP-1" {
-    scale 1.5
+
+output DP-1 {
+    resolution 2560x1440@74.971Hz
+    position 0,0
+    bg /home/kaan/Pictures/Wallpapers/left.jpg fill
+}
+output DP-2 {
+    resolution 2560x1440@144.006Hz
+    position 2560,0
+    adaptive_sync on
+    bg /home/kaan/Pictures/Wallpapers/middle.jpg fill
+}
+output DP-3 {
+    resolution 2560x1440@144.006Hz
+    position 5120,0
+    adaptive_sync on
+    bg /home/kaan/Pictures/Wallpapers/right.jpg fill
 }
 
 # Enable XWayland
@@ -83,9 +98,13 @@ exec bash -c "/usr/lib/xdg-desktop-portal -r & /usr/lib/xdg-desktop-portal-wlr"
 # Read `man 5 sway-input` for more information about this section.
 
 input * xkb_numlock enable
-
-input "1:1:AT_Translated_Set_2_keyboard" {
-    xkb_options "ctrl:nocaps,ctrl:swapcaps"
+input * accel_profile flat
+input "5426:136:Razer_Razer_Basilisk_Ultimate_Dongle" {
+    accel_profile flat
+    pointer_accel -0.8
+}
+input "1452:613:Apple_Inc._Magic_Trackpad_2" {
+    accel_profile adaptive
 }
 
 ### Key bindings
@@ -259,6 +278,6 @@ bar {
 #
 
 gaps inner 12
-gaps outer 6
+gaps outer 16
 
 include /etc/sway/config.d/*
