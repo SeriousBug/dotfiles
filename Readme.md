@@ -1,4 +1,4 @@
-This is my configuration for my desktop computer.
+This is my configuration for my laptop.
 
-See [echoes](https://github.com/SeriousBug/dotfiles/tree/echoes) for the configuration I use on my laptop.
+See [eclipse](https://github.com/SeriousBug/dotfiles/tree/eclipse) for the configuration I use on my laptop.
 
