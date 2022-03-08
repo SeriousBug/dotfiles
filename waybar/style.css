@@ -1,7 +1,7 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
     font-family: FontAwesome, Fira Code;
-    font-size: 13px;
+    font-size: 20px;
     color: rgba(255, 255, 255, 0.8);
 }
 
@@ -36,7 +36,7 @@ window#waybar.chromium {
 } */
 
 #workspaces button {
-    padding: 0 5px;
+    padding: 0 0.5rem;
     background-color: #D6882D;
     color: rgba(0,0,0,0.8);
     /* Use box-shadow instead of border so the text isn't offset */
@@ -89,12 +89,17 @@ window#waybar.chromium {
 #mode,
 #idle_inhibitor,
 #mpd {
-    padding: 0 10px;
+    padding: 0 0.5rem;
 }
 
 #window,
 #workspaces {
     margin: 0 4px;
+}
+
+.modules-left > *, .modules-right > * {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
 /* If workspaces is the leftmost module, omit left margin */
@@ -199,7 +204,7 @@ label:focus {
 }
 
 #keyboard-state > label {
-    padding: 0 5px;
+    padding: 0 0.5rem;
 }
 
 #keyboard-state > label.locked {
@@ -217,7 +222,7 @@ label:focus {
 }
 #language {
     background: #9B551E;
-    padding: 0 5px;
+    padding: 0 0.5rem;
     min-width: 16px;
 }
 #temperature {
