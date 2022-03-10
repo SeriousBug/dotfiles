@@ -61,7 +61,7 @@ exec blueman-applet
 exec bash -c "/usr/lib/xdg-desktop-portal -r & /usr/lib/xdg-desktop-portal-wlr"
 
 # kdeconnect
-exec /usr/lib/kdeconnectd
+exec bash -c "nohup /usr/lib/kdeconnectd >/dev/null &"
 
 #
 # Example configuration:
