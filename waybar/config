@@ -66,6 +66,9 @@
         "device": "intel_backlight",
         "format": "{percent}% {icon}",
         "format-icons": ["", ""],
+        "on-scroll-up": "/home/kaan/.config/sway/backlight.py +1",
+        "on-scroll-down": "/home/kaan/.config/sway/backlight.py -1",
+        "on-click": "/home/kaan/.config/sway/backlight.py --off"
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
