@@ -222,12 +222,18 @@ input "1452:613:Apple_Inc._Magic_Trackpad_2" {
 # Screenshots:
 #
     # full screen
-    bindsym Print exec grim - | swappy -f -
+    #bindsym Print exec grim - | swappy -f -
+    bindsym Print exec grim "$HOME/Pictures/Screenshot/$(date +'%Y-%m-%d-%H-%M-%S-%N.png')"
     # selected region
-    bindsym $mod+Shift+Print exec grim -g "$(slurp)" - | swappy -f -
+    bindsym $mod+Shift+Print exec grim -g "$(slurp)" "$HOME/Pictures/Screenshot/$(date +'%Y-%m-%d-%H-%M-%S-%N.png')"
+    
+mode "screenshot" {
     # selected window
-    #bindsym $mod+Print exec grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp)" - | swappy -f -
-
+    bindsym w exec exec grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp)" "$HOME/Pictures/Screenshot/$(date +'%Y-%m-%d-%H-%M-%S-%N.png')"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+c mode "screenshot"
 
 #
 # Media controls:
