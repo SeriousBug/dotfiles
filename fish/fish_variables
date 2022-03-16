@@ -1,7 +1,7 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR --export ANDROID_HOME:/home/kaan/Android/Sdk/
-SETUVAR --export BROWSER:/usr/bin/flatpak\x20run\x20\x2d\x2dbranch\x3dstable\x20\x2d\x2darch\x3dx86_64\x20\x2d\x2dcommand\x3dfirefox\x20\x2d\x2dfile\x2dforwarding\x20org\x2emozilla\x2efirefox
+SETUVAR --export BROWSER:firefox
 SETUVAR --export CROSS_CONTAINER_ENGINE:podman
 SETUVAR --export EDITOR:nano
 SETUVAR --export MOZ_ENABLE_WAYLAND:1
