@@ -1,10 +1,14 @@
 [Unit]
 Description=Run kdeconnectd.
 After=graphical-session.target
+StartLimitIntervalSec=600
+StartLimitBurst=5
 
 [Service]
 type=basic
 ExecStart=/usr/lib/kdeconnectd
+Restart=on-failure
+RestartSec=5s
 
 [Install]
 WantedBy=graphical-session.target
