@@ -48,20 +48,16 @@ output DP-3 {
 # Enable XWayland
 xwayland enable
 
+# Pass all variables to dbus & systemd to run graphical user services
+exec dbus-update-activation-environment --all --systemd
 # Enable screencast support
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
 # Night color (red shift)
 exec wlsunset -l 40 -L -83
 
-# Bluetooth
-exec blueman-applet
-
 # Screen sharing selection
 exec bash -c "/usr/lib/xdg-desktop-portal -r & /usr/lib/xdg-desktop-portal-wlr"
-
-# kdeconnect
-exec bash -c "nohup /usr/lib/kdeconnectd >/dev/null &"
 
 #
 # Example configuration:

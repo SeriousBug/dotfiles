@@ -1,0 +1,10 @@
+[Unit]
+Description=Run kdeconnectd.
+After=graphical-session.target
+
+[Service]
+type=basic
+ExecStart=/usr/lib/kdeconnectd
+
+[Install]
+WantedBy=graphical-session.target
