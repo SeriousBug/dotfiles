@@ -5,7 +5,7 @@ StartLimitIntervalSec=600
 StartLimitBurst=5
 
 [Service]
-type=basic
+Type=basic
 ExecStart=/usr/bin/blueman-applet
 Restart=on-failure
 RestartSec=5s
