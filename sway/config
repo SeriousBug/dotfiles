@@ -27,7 +27,7 @@ set $menu j4-dmenu-desktop --dmenu='env BEMENU_BACKEND=wayland bemenu --line-hei
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output * bg /home/kaan/Pictures/Wallpapers/Sway-no-text.png fill
 output "eDP-1" {
-    scale 1
+    scale 1.5
 }
 
 # Enable XWayland
