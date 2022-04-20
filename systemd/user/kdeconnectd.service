@@ -5,9 +5,9 @@ StartLimitIntervalSec=600
 StartLimitBurst=5
 
 [Service]
-Type=basic
+Type=simple
 ExecStart=/usr/lib/kdeconnectd
-Restart=on-failure
+Restart=always
 RestartSec=5s
 
 [Install]

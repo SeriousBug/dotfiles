@@ -1,6 +1,6 @@
 [Unit]
 Description=Run noisetorch input supressor.
-After=graphical-session.target
+After=pipewire.service
 
 [Service]
 Type=oneshot
