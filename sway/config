@@ -288,4 +288,12 @@ client.focused_tab_title	#333333	#5f676a	#ffffff
 client.unfocused	#711A75	#711A75	#ffffff	#711A75	#711A75
 client.urgent	#F582A7	#F582A7	#000000	#F582A7	#F582A7
 
+default_border pixel
+
+client.focused	#F10086	#F10086	#ffffff	#F10086	#F10086
+client.focused_inactive	#333333	#5f676a	#ffffff	#484e50	#5f676a
+client.focused_tab_title	#333333	#5f676a	#ffffff
+client.unfocused	#711A75	#711A75	#ffffff	#711A75	#711A75
+client.urgent	#F582A7	#F582A7	#000000	#F582A7	#F582A7
+
 include /etc/sway/config.d/*
