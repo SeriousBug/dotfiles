@@ -57,6 +57,8 @@ exec kdeconnect-indicator
 # Bluetooth
 exec /usr/bin/blueman-applet
 
+exec nm-applet --indicator
+
 #
 # Example configuration:
 #
