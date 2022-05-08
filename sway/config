@@ -57,7 +57,20 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 exec wlsunset -l 40 -L -83
 
 # Screen sharing selection
-exec bash -c "/usr/lib/xdg-desktop-portal -r & /usr/lib/xdg-desktop-portal-wlr"
+#exec bash -c "/usr/lib/xdg-desktop-portal -r & /usr/lib/xdg-desktop-portal-wlr"
+exec_always env WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway /usr/lib/xdg-desktop-portal -r &
+exec_always /usr/lib/xdg-desktop-portal-wlr -r &
+
+# policykit (graphical password prompt)
+exec /usr/bin/lxqt-policykit-agent
+
+# mic noise supression
+exec systemctl --user start noisetorch.service
+# KDE Connect
+exec systemctl --user start kdeconnectd.service
+exec kdeconnect-indicator
+# Bluetooth
+exec /usr/bin/blueman-applet
 
 #
 # Example configuration:
@@ -67,7 +80,7 @@ exec bash -c "/usr/lib/xdg-desktop-portal -r & /usr/lib/xdg-desktop-portal-wlr"
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
 #exec swayidle -w \
-#    timeout 1200 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"'
+#    timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"'
 
 ### Idle configuration
 #
@@ -265,7 +278,7 @@ mode "resize" {
 
     # Preset sizes
     bindsym q resize set width 60ppt
-    bindsym e resize set width 40ppt
+    bindsym e resize set width 25ppt
 }
 bindsym $mod+r mode "resize"
 
