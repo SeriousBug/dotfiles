@@ -7,6 +7,9 @@ direnv hook fish | source
 # set current desktop, needed for desktop sharing with Wayland
 set -gx XDG_CURRENT_DESKTOP sway
 
+# make Qt apps use the theme set by qt5ct
+set -gx QT_QPA_PLATFORMTHEME qt5ct
+
 # load desktop files from flatpak
 set -l xdg_data_home $XDG_DATA_HOME ~/.local/share
 set -gx --path XDG_DATA_DIRS $xdg_data_home[1]/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
