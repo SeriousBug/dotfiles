@@ -71,6 +71,8 @@ exec systemctl --user start kdeconnectd.service
 exec kdeconnect-indicator
 # Bluetooth
 exec /usr/bin/blueman-applet
+# Backups
+exec /opt/KopiaUI/kopia-ui
 
 #
 # Example configuration:
