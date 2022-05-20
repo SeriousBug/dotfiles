@@ -108,7 +108,7 @@
             "critical": 15
         },
         "full-at": 80,
-        "format": "{capacity}% {icon}",
+        "format": "{capacity}% - {time} {icon}",
         "format-icons": ["", "", "", "", ""],
         "max-length": 25
     }
