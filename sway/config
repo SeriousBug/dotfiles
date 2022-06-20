@@ -308,3 +308,6 @@ client.unfocused	#711A75	#711A75	#ffffff	#711A75	#711A75
 client.urgent	#F582A7	#F582A7	#000000	#F582A7	#F582A7
 
 include /etc/sway/config.d/*
+
+for_window [app_id="pinentry-qt"] floating enable
+for_window [app_id="firefox" title="Firefox — Sharing Indicator"] floating enable, move position 1200 px 90 px
