@@ -1,13 +1,13 @@
 [user]
 	email = kaan@bgenc.net
-	name = Kaan Genc
-	signingkey = A797CF95E35B9AF65CEF27C55E48BE32646A796F
+	signingkey = F5DEC5268AA501F35FBD5978B2E280771CD62FCF
+	name = Kaan Barmore-Genc
 [init]
 	defaultBranch = main
 [pull]
 	rebase = true
 [commit]
-	gpgSign = false
+	gpgSign = true
 [tag]
 	gpgsign = true
 [pager]
@@ -24,5 +24,3 @@
 	ff = no
 [alias]
 	stat = status
-[core]
-	editor = code --wait
