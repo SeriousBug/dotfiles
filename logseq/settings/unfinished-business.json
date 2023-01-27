@@ -1,0 +1,6 @@
+{
+  "defaultTag": "",
+  "searchMarkers": "\"TODO\" \"LATER\" \"DOING\" \"NOW\"",
+  "sortOrder": "by Priority then Marker",
+  "disabled": false
+}

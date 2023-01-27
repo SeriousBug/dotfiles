@@ -1,0 +1,29 @@
+{
+  "theme": {
+    "name": "Dev theme",
+    "url": "assets:///home/kaan/.logseq/plugins/logseq-dev-theme/custom.css",
+    "pid": "logseq-dev-theme"
+  },
+  "themes": {
+    "mode": "dark",
+    "light": {
+      "name": "Default Light Theme",
+      "url": null,
+      "description": "Logseq default light theme.",
+      "mode": "light",
+      "selected": true,
+      "group-first": true,
+      "group-desc": "light themes"
+    },
+    "dark": {
+      "name": "Dev theme",
+      "url": "assets:///home/kaan/.logseq/plugins/logseq-dev-theme/custom.css",
+      "pid": "logseq-dev-theme",
+      "group-first": true,
+      "group-desc": "light & dark themes",
+      "mode": "dark",
+      "selected": false
+    }
+  },
+  "externals": []
+}
