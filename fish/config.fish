@@ -24,3 +24,11 @@ for flatpakdir in ~/.local/share/flatpak/exports/bin /var/lib/flatpak/exports/bi
         contains $flatpakdir $PATH; or set -a PATH $flatpakdir
     end
 end
+
+
+# if not pgrep -u "$USER" ssh-agent > /dev/null
+#     ssh-agent -t 1 -c > "$XDG_RUNTIME_DIR/ssh-agent.env"
+# end
+# if test -z "$SSH_AUTH_SOCK"
+#     source "$XDG_RUNTIME_DIR/ssh-agent.env" >/dev/null
+# end
