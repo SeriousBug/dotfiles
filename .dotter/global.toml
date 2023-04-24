@@ -17,7 +17,7 @@ fish = "~/.config/fish"
 "kitty/kitty.conf" = "~/.config/kitty/kitty.conf"
 
 [rofi.files]
-"rofi/config.rasi" = "~/.config/rofi/config.rasi"
+"rofi/config/config.rasi" = "~/.config/rofi/config.rasi"
 "rofi/themes/rofi-advanced-7-2.rasi" = "~/.local/share/rofi/themes/rofi-advanced-7-2.rasi"
 "rofi/themes/rofi-advanced-powermenu-6-2.rasi" = "~/.local/share/rofi/themes/rofi-advanced-powermenu-6-2.rasi"
 "rofi/themes/powermenu.sh" = "~/.local/share/rofi/themes/powermenu.sh"
