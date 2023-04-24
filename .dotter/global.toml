@@ -32,7 +32,42 @@ fish = "~/.config/fish"
 "systemd/user/noisetorch.service" = "~/.config/systemd/user/noisetorch.service"
 "systemd/user/ssh-agent.service" = "~/.config/systemd/user/ssh-agent.service"
 
+[waybar]
+depends = ["theme"]
+
 [waybar.files]
 "waybar/config" = "~/.config/waybar/config"
 "waybar/style.css" = "~/.config/waybar/style.css"
 "waybar/mediaplayer.py" = "~/.config/waybar/mediaplayer.py"
+
+
+[theme.variables]
+# These are specified in bg-fg pairs, background and text color. The _fg color
+# is the color of text that would be readable on this color background.
+#
+# Dark doesn't necessarily mean darker tone, but also could be a duller tone. Or
+# could be straight up lighter, just depends on the theme. It's just a variation
+# of the color it's based on.
+color_primary = "#66cc99"
+color_primary_fg = "#000000"
+
+color_primary_dark = "#94A879"
+color_primary_dark_fg = "#000000"
+
+color_primary_darker = "#5D7150"
+color_primary_darker_fg = "#FFFFFF"
+
+color_primary_darkest = "#807348"
+color_primary_darkest_fg = "#FFFFFF"
+
+color_secondary = "#D6882D"
+color_secondary_fg = "#000000"
+
+color_secondary_dark = "#9B551E"
+color_secondary_dark_fg = "#FFFFFF"
+
+color_secondary_darker = "#743307"
+color_secondary_darker_fg = "#FFFFFF"
+
+color_secondary_darkest = "#3F2D16"
+color_secondary_darkest_fg = "#FFFFFF"
