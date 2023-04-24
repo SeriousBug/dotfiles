@@ -57,7 +57,7 @@ imagebox {
     spacing:                     20px;
     padding:                     20px;
     background-color:            transparent;
-    background-image:            url("/home/kaan/Pictures/Wallpapers/pexels-life-of-pix-7919-small.avif", height);
+    background-image:            url("~/.local/share/rofi/themes/powermenu-bg.avif", height);
     children:                    [ "inputbar", "dummy", "message" ];
 }
 

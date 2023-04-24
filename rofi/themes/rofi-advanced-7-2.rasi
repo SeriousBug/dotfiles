@@ -73,7 +73,7 @@ inputbar {
     spacing:                     10px;
     padding:                     80px 60px;
     background-color:            transparent;
-    background-image:            url("/home/kaan/Pictures/Wallpapers/pexels-life-of-pix-7919.avif", width);
+    background-image:            url("~/.local/share/rofi/themes/launcher-bg.avif", width);
     text-color:                  @foreground;
     orientation:                 horizontal;
     children:                    [ "textbox-prompt-colon", "entry", "dummy", "mode-switcher" ];

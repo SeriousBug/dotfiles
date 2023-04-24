@@ -21,6 +21,8 @@ fish = "~/.config/fish"
 "rofi/themes/rofi-advanced-7-2.rasi" = "~/.local/share/rofi/themes/rofi-advanced-7-2.rasi"
 "rofi/themes/rofi-advanced-powermenu-6-2.rasi" = "~/.local/share/rofi/themes/rofi-advanced-powermenu-6-2.rasi"
 "rofi/themes/powermenu.sh" = "~/.local/share/rofi/themes/powermenu.sh"
+"rofi/themes/launcher-bg.avif" = "~/.local/share/rofi/themes/launcher-bg.avif"
+"rofi/themes/powermenu-bg.avif" = "~/.local/share/rofi/themes/powermenu-bg.avif"
 
 [sway.files]
 "sway/config" = "~/.config/sway/config"
