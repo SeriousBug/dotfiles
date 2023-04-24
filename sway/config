@@ -307,13 +307,12 @@ gaps inner 12
 gaps outer 16
 default_border pixel
 
-client.focused {{color_primary}} #F10086	#ffffff	#F10086	{{color_primary}}
+client.focused {{color_secondary}} {{color_secondary}} {{color_secondary_fg}} {{color_secondary}} {{color_secondary}}
 # the focused view within an unfocused container (like the selected one in a vertical stack)
-client.focused_inactive	#333333	#5f676a	#ffffff	#484e50	#5f676a
-client.focused_tab_title	#333333	#5f676a	#ffffff
-client.unfocused	#711A75	#711A75	#ffffff	#711A75	#711A75
+client.focused_inactive	{{color_secondary_dark}} {{color_secondary_dark}} {{color_secondary_dark_fg}} {{color_secondary_dark}} {{color_secondary_dark}}
+client.unfocused {{color_secondary_darker}} {{color_secondary_darker}} {{color_secondary_darker_fg}} {{color_secondary_darker}} {{color_secondary_darker}}
 # ignore urgent, it's xwayland only
-client.urgent	#F582A7	#F582A7	#000000	#F582A7	#F582A7
+client.urgent {{color_secondary}} {{color_secondary}} {{color_secondary_fg}} {{color_secondary}} {{color_secondary}}
 
 include /etc/sway/config.d/*
 
