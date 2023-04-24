@@ -15,12 +15,12 @@ configuration {
 /*****----- Global Properties -----*****/
 * {
     font:                        "Ubuntu 10";
-    background:                  #3F2D16;
-    background-alt:              #743307;
-    foreground:                  #FFFFFF;
-    selected:                    #D6882D;
-    active:                      #5D7150;
-    urgent:                      #94A879;
+    background:                  {{color_secondary_darkest}};
+    background-alt:              {{color_secondary_darker}};
+    foreground:                  {{color_secondary_darkest_fg}};
+    selected:                    {{color_secondary}};
+    active:                      {{color_primary_darker}};
+    urgent:                      {{color_primary_dark}};
 }
 
 /*

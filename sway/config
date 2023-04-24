@@ -31,19 +31,19 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 output DP-1 {
     resolution 2560x1440@74.971Hz
     position 0,0
-    bg /home/kaan/Pictures/Wallpapers/left.jpg fill
+    bg $HOME/.config/sway/left.avif fill
 }
 output DP-2 {
     resolution 2560x1440@144.006Hz
     position 2560,0
     adaptive_sync on
-    bg /home/kaan/Pictures/Wallpapers/middle.jpg fill
+    bg $HOME/.config/sway/middle.avif fill
 }
 output DP-3 {
     resolution 2560x1440@144.006Hz
     position 5120,0
     adaptive_sync on
-    bg /home/kaan/Pictures/Wallpapers/right.jpg fill
+    bg $HOME/.config/sway/right.avif fill
 }
 
 # Enable XWayland
@@ -307,10 +307,12 @@ gaps inner 12
 gaps outer 16
 default_border pixel
 
-client.focused	#F10086	#F10086	#ffffff	#F10086	#F10086
+client.focused {{color_primary}} #F10086	#ffffff	#F10086	{{color_primary}}
+# the focused view within an unfocused container (like the selected one in a vertical stack)
 client.focused_inactive	#333333	#5f676a	#ffffff	#484e50	#5f676a
 client.focused_tab_title	#333333	#5f676a	#ffffff
 client.unfocused	#711A75	#711A75	#ffffff	#711A75	#711A75
+# ignore urgent, it's xwayland only
 client.urgent	#F582A7	#F582A7	#000000	#F582A7	#F582A7
 
 include /etc/sway/config.d/*

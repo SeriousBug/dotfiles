@@ -16,6 +16,8 @@ fish = "~/.config/fish"
 [kitty.files]
 "kitty/kitty.conf" = "~/.config/kitty/kitty.conf"
 
+[rofi]
+depends = ["theme"]
 [rofi.files]
 "rofi/config/config.rasi" = "~/.config/rofi/config.rasi"
 "rofi/themes/rofi-advanced-7-2.rasi" = "~/.local/share/rofi/themes/rofi-advanced-7-2.rasi"
@@ -24,8 +26,13 @@ fish = "~/.config/fish"
 "rofi/themes/launcher-bg.avif" = { target = "~/.local/share/rofi/themes/launcher-bg.avif", type = "symbolic" }
 "rofi/themes/powermenu-bg.avif" = { target = "~/.local/share/rofi/themes/powermenu-bg.avif", type = "symbolic" }
 
+[sway]
+depends = ["theme"]
 [sway.files]
 "sway/config" = "~/.config/sway/config"
+"sway/left.avif" = { target = "~/.config/sway/left.avif", type = "symbolic" }
+"sway/middle.avif" = { target = "~/.config/sway/middle.avif", type = "symbolic" }
+"sway/right.avif" = { target = "~/.config/sway/right.avif", type = "symbolic" }
 
 [systemd.files]
 "systemd/user/kdeconnectd.service" = "~/.config/systemd/user/kdeconnectd.service"
@@ -34,7 +41,6 @@ fish = "~/.config/fish"
 
 [waybar]
 depends = ["theme"]
-
 [waybar.files]
 "waybar/config" = "~/.config/waybar/config"
 "waybar/style.css" = "~/.config/waybar/style.css"
