@@ -1,8 +1,36 @@
 [helpers]
 
-[default]
-depends = []
+[applications.files]
+"applications/code.desktop" = "~/.local/share/applications/code.desktop"
+"applications/com.logseq.Logseq.desktop" = "~/.local/share/applications/com.logseq.Logseq.desktop"
 
-[default.files]
+[bottom.files]
+"bottom/bottom.toml" = "~/.config/bottom/bottom.toml"
 
-[default.variables]
+[fish.files]
+fish = "~/.config/fish"
+
+[git.files]
+"git/gitconfig" = "~/.gitconfig"
+
+[kitty.files]
+"kitty/kitty.conf" = "~/.config/kitty/kitty.conf"
+
+[rofi.files]
+"rofi/config.rasi" = "~/.config/rofi/config.rasi"
+"rofi/themes/rofi-advanced-7-2.rasi" = "~/.local/share/rofi/themes/rofi-advanced-7-2.rasi"
+"rofi/themes/rofi-advanced-powermenu-6-2.rasi" = "~/.local/share/rofi/themes/rofi-advanced-powermenu-6-2.rasi"
+"rofi/themes/powermenu.sh" = "~/.local/share/rofi/themes/powermenu.sh"
+
+[sway.files]
+"sway/config" = "~/.config/sway/config"
+
+[systemd.files]
+"systemd/user/kdeconnectd.service" = "~/.config/systemd/user/kdeconnectd.service"
+"systemd/user/noisetorch.service" = "~/.config/systemd/user/noisetorch.service"
+"systemd/user/ssh-agent.service" = "~/.config/systemd/user/ssh-agent.service"
+
+[waybar.files]
+"waybar/config" = "~/.config/waybar/config"
+"waybar/style.css" = "~/.config/waybar/style.css"
+"waybar/mediaplayer.py" = "~/.config/waybar/mediaplayer.py"
