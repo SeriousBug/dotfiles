@@ -1,0 +1,8 @@
+//@theme "/home/kaan/.local/share/rofi/themes/launchpad.rasi"
+
+configuration {
+	kb-cancel: "Escape";
+	me-select-entry: "";
+	me-accept-entry: [ MousePrimary, MouseDPrimary ];
+}
+@theme "/home/kaan/.local/share/rofi/themes/rofi-advanced-7-2.rasi"

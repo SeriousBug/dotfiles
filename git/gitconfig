@@ -1,0 +1,37 @@
+[user]
+	email = kaan@bgenc.net
+	name = Kaan Barmore-Genc
+	signingkey = F5DEC5268AA501F35FBD5978B2E280771CD62FCF
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
+[commit]
+	gpgSign = true
+[tag]
+	gpgsign = true
+[pager]
+	diff = delta
+	log = delta
+	reflog = delta
+	show = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	features = side-by-side line-numbers decorations
+	whitespace-error-style = 22 reverse
+[merge]
+	ff = no
+[alias]
+	stat = status
+[core]
+	editor = code --wait
+[credential]
+	helper = store
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[push]
+	autoSetupRemote = true

@@ -1,0 +1,14 @@
+[Unit]
+Description=Run kdeconnectd.
+After=graphical-session.target
+StartLimitIntervalSec=600
+StartLimitBurst=5
+
+[Service]
+Type=simple
+ExecStart=/usr/lib/kdeconnectd
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=graphical-session.target

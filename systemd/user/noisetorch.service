@@ -1,0 +1,12 @@
+[Unit]
+Description=Run noisetorch input supressor.
+After=pipewire.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/noisetorch -i
+RemainAfterExit=true
+ExecStop=/usr/bin/noisetorch -u
+
+[Install]
+WantedBy=graphical-session.target
