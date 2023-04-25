@@ -40,12 +40,15 @@ depends = ["theme"]
 "systemd/user/ssh-agent.service" = "~/.config/systemd/user/ssh-agent.service"
 
 [waybar]
-depends = ["theme"]
+depends = ["theme", "system"]
 [waybar.files]
 "waybar/config" = "~/.config/waybar/config"
 "waybar/style.css" = "~/.config/waybar/style.css"
 "waybar/mediaplayer.py" = "~/.config/waybar/mediaplayer.py"
 
+
+[system.variables]
+has_battery = false
 
 [theme.variables]
 # These are specified in bg-fg pairs, background and text color. The _fg color

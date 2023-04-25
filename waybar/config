@@ -7,7 +7,11 @@
     // Choose the order of the modules
     "modules-left": ["custom/launcher", "sway/workspaces", "sway/mode", "custom/windows"],
     "modules-center": ["sway/window"],
-    "modules-right": ["custom/media", "pulseaudio", "cpu", "memory", "temperature", "sway/language", "clock", "tray", "custom/exit"],
+    "modules-right": ["custom/media", "pulseaudio",
+    {{#if has_battery}}
+    "battery",
+    {{/if}}
+     "cpu", "memory", "temperature", "sway/language", "clock", "tray", "custom/exit"],
     // Modules configuration
     "sway/workspaces": {
         "disable-scroll": true,
