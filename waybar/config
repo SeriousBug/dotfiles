@@ -23,6 +23,9 @@
             "default": ""
         }
     },
+    "sway/language": {
+        "on-click": "swaymsg input '*' xkb_switch_layout next"
+    },
     "keyboard-state": {
         "numlock": true,
         "capslock": true,

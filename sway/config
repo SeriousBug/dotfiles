@@ -127,10 +127,9 @@ input "1452:613:Apple_Inc._Magic_Trackpad" {
 }
 input "1:1:AT_Translated_Set_2_keyboard" {
     xkb_options ctrl:swapcaps
-}
-input "type:keyboard" {
     xkb_layout us,tr
 }
+
 
 ### Key bindings
 #
