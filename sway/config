@@ -155,7 +155,7 @@ input "1:1:AT_Translated_Set_2_keyboard" {
     bindsym $mod+Shift+c reload
 
     # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec wlogout
+    bindsym $mod+Shift+e exec $HOME/.local/share/rofi/themes/powermenu.sh
 #
 # Moving around:
 #
