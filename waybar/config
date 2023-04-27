@@ -11,6 +11,9 @@
     {{#if has_battery}}
     "battery",
     {{/if}}
+    {{#if intel_backlight}}
+    "backlight",
+    {{/if}}
      "cpu", "memory", "temperature", "sway/language", "clock", "tray", "custom/exit"],
     // Modules configuration
     "sway/workspaces": {
@@ -73,6 +76,8 @@
         "device": "intel_backlight",
         "format": "{percent}% {icon}",
         "format-icons": ["", ""],
+        "on-scroll-up": "backlight-control +1",
+        "on-scroll-down": "backlight-control -1"
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
