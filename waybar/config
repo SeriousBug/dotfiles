@@ -6,7 +6,7 @@
     "spacing": 0, // Gaps between modules (4px)
     // Choose the order of the modules
     "modules-left": ["custom/launcher", "sway/workspaces", "sway/mode", "custom/windows"],
-    "modules-center": ["sway/window"],
+    "modules-center": [],
     "modules-right": ["custom/media", "pulseaudio",
     {{#if has_battery}}
     "battery",
