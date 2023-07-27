@@ -35,3 +35,5 @@
 	process = git-lfs filter-process
 [push]
 	autoSetupRemote = true
+[submodule]
+	recurse = true
