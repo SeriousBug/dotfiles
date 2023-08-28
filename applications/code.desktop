@@ -2,7 +2,7 @@
 Name=Visual Studio Code
 Comment=Code Editing. Refined.
 GenericName=Text Editor
-Exec=/usr/bin/code --unity-launch --enable-features=UseOzonePlatform --ozone-platform=wayland %F
+Exec=env SSH_AUTH_SOCK=/run/user/1000/keyring/ssh DOCKER_HOST=unix:///run/user/1000/docker.sock /usr/bin/code --unity-launch --enable-features=UseOzonePlatform --ozone-platform=wayland --password-store=kwallet5 %F
 Icon=visual-studio-code
 Type=Application
 StartupNotify=false
