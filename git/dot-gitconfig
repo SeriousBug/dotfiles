@@ -7,9 +7,9 @@
 [pull]
 	rebase = true
 [commit]
-	gpgSign = true
+	gpgSign = false
 [tag]
-	gpgsign = true
+	gpgsign = false
 [pager]
 	diff = delta
 	log = delta
@@ -24,3 +24,5 @@
 	ff = no
 [alias]
 	stat = status
+[push]
+	autoSetupRemote = true
