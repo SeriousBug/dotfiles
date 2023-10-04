@@ -3,7 +3,9 @@
 SETUVAR --export ANDROID_HOME:/home/kaan/Android/Sdk/
 SETUVAR --export BROWSER:firefox
 SETUVAR --export CROSS_CONTAINER_ENGINE:podman
+{{#if (eq platform "Linux" )}}
 SETUVAR --export DOCKER_HOST:unix\x3a///run/user/1000/docker\x2esock
+{{/if}}
 SETUVAR --export EDITOR:nano
 SETUVAR --export --path GOPATH:/home/kaan/\x2ego
 SETUVAR --export MOZ_ENABLE_WAYLAND:1
