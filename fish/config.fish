@@ -3,7 +3,7 @@ if status is-interactive
 end
 # set up direnv
 direnv hook fish | source
-
+{{#if (eq platform "linux") }}
 # set current desktop, needed for desktop sharing with Wayland
 set -gx XDG_CURRENT_DESKTOP sway
 
@@ -26,3 +26,11 @@ for flatpakdir in ~/.local/share/flatpak/exports/bin /var/lib/flatpak/exports/bi
         contains $flatpakdir $PATH; or set -a PATH $flatpakdir
     end
 end
+{{/if}}
+
+{{#if (eq platform "macos") }}
+# Set Mac keyboard shortcuts
+bind \u0192 forward-word
+bind \u222B backward-word
+bind \u2202 kill-word
+{{/if}}
