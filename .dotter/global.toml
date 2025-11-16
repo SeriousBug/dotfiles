@@ -16,8 +16,11 @@ depends = []
 "nvim/init.lua" = "~/.config/nvim/init.lua"
 "nvim/lazy-lock.json" = "~/.config/nvim/lazy-lock.json"
 "nvim/lua/config/lazy.lua" = "~/.config/nvim/lua/config/lazy.lua"
-"nvim/lua/plugins/hop.lua" = "~/.config/nvim/lua/plugins/hop.lua"
 "nvim/lua/plugins/mini-surround.lua" = "~/.config/nvim/lua/plugins/mini-surround.lua"
+
+[nvim.files."nvim/lua/plugins/hop.lua"]
+target = "~/.config/nvim/lua/plugins/hop.lua"
+type = "symbolic"
 
 [nvim.variables]
 
