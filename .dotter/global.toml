@@ -1,0 +1,13 @@
+[helpers]
+
+[git]
+depends = []
+
+[git.files]
+"git/.gitconfig" = "~/.gitconfig"
+"git/.gitignore" = "~/.gitignore"
+
+[git.variables]
+
+[settings]
+default_target_type = "automatic"
