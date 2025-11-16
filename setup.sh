@@ -2,6 +2,68 @@
 
 set -eo pipefail
 
+# Function to manage directory symlinks
+# Usage: ensure_dir_symlink <source_dir> <target_link> <force_flag>
+# Args:
+#   source_dir: The actual directory to symlink to (must be absolute path)
+#   target_link: The symlink location to create
+#   force_flag: true/false - whether to force replacement if exists
+ensure_dir_symlink() {
+    local source_dir="$1"
+    local target_link="$2"
+    local force_flag="$3"
+
+    # Expand tilde in paths
+    target_link="${target_link/#\~/$HOME}"
+    source_dir="${source_dir/#\~/$HOME}"
+
+    # Check if target exists
+    if [[ -e "$target_link" || -L "$target_link" ]]; then
+        # Check if it's already a symlink pointing to the right place
+        if [[ -L "$target_link" ]]; then
+            local current_target
+            current_target="$(readlink "$target_link")"
+            if [[ "$current_target" == "$source_dir" ]]; then
+                echo "✓ $target_link already symlinked correctly"
+                return 0
+            else
+                # Symlink exists but points to wrong location
+                if [[ "$force_flag" == true ]]; then
+                    echo "Replacing symlink $target_link (currently points to $current_target)"
+                    rm "$target_link"
+                else
+                    echo "⚠ Warning: $target_link exists but points to $current_target (expected $source_dir)"
+                    echo "  Run with --force-deploy to replace it"
+                    return 0
+                fi
+            fi
+        else
+            # Path exists but is not a symlink
+            if [[ "$force_flag" == true ]]; then
+                echo "Replacing $target_link with symlink (was a regular file/directory)"
+                rm -rf "$target_link"
+            else
+                echo "⚠ Warning: $target_link exists but is not a symlink"
+                echo "  Run with --force-deploy to replace it"
+                return 0
+            fi
+        fi
+    fi
+
+    # Create parent directory if needed
+    local parent_dir
+    parent_dir="$(dirname "$target_link")"
+    if [[ ! -d "$parent_dir" ]]; then
+        echo "Creating parent directory: $parent_dir"
+        mkdir -p "$parent_dir"
+    fi
+
+    # Create the symlink
+    echo "Creating symlink: $target_link -> $source_dir"
+    ln -s "$source_dir" "$target_link"
+    echo "✓ Successfully created symlink"
+}
+
 # Parse command line arguments
 RESET_CONFIG=false
 FORCE_DEPLOY=false
@@ -191,6 +253,12 @@ else
         echo "⚠ Dotter deployment failed. You may need to run 'dotter deploy -f' to force deployment."
     fi
 fi
+
+# Manage directory symlinks (not handled by Dotter)
+echo ""
+echo "Setting up directory symlinks..."
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ensure_dir_symlink "$DOTFILES_DIR/fish/functions" "~/.config/fish/functions" "$FORCE_DEPLOY"
 
 echo ""
 echo "✓ Setup complete!"

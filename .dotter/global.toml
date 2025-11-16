@@ -32,7 +32,7 @@ depends = []
 "fish/fish_plugins" = "~/.config/fish/fish_plugins"
 "fish/completions" = "~/.config/fish/completions"
 "fish/conf.d" = "~/.config/fish/conf.d"
-"fish/functions" = "~/.config/fish/functions"
+# Note: fish/functions is managed directly as a directory symlink in setup.sh
 
 [fish.variables]
 
