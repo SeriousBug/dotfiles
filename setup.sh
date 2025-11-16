@@ -1,79 +1,101 @@
 #!/usr/bin/env bash
 
-set -e
+set -eo pipefail
 
 # Parse command line arguments
 RESET_CONFIG=false
-if [[ "$1" == "--reset" ]]; then
-    RESET_CONFIG=true
-    echo "Resetting configuration (will re-prompt for all variables)..."
-fi
+FORCE_DEPLOY=false
+SKIP_BREW=false
+
+for arg in "$@"; do
+    case $arg in
+        --reset)
+            RESET_CONFIG=true
+            echo "Resetting configuration (will re-prompt for all variables)..."
+            ;;
+        --force-deploy)
+            FORCE_DEPLOY=true
+            echo "Force deployment mode enabled..."
+            ;;
+        --skip-brew)
+            SKIP_BREW=true
+            echo "Skipping Homebrew package installation..."
+            ;;
+        *)
+            echo "Unknown option: $arg"
+            echo "Usage: $0 [--reset] [--force-deploy] [--skip-brew]"
+            exit 1
+            ;;
+    esac
+done
 
 echo "Setting up dotfiles environment..."
 
 # Detect OS
 OS="$(uname -s)"
 
-# Check if Homebrew is installed
-if ! command -v brew &> /dev/null; then
-    echo "Homebrew is not installed. Please install it first:"
-    echo "https://brew.sh"
-    exit 1
-fi
-
-echo "Updating Homebrew..."
-brew update
-
-# Install packages (available on both macOS and Linux)
-PACKAGES=(
-    dotter
-    fish
-    dust
-    eza
-    gh
-    htop
-    go
-    jq
-    lazygit
-    neovim
-    asdf
-    bat
-    pandoc
-    ripgrep
-    zoxide
-    zellij
-    p7zip
-)
-
-echo "Installing packages..."
-for package in "${PACKAGES[@]}"; do
-    if brew list "$package" &>/dev/null; then
-        echo "✓ $package already installed"
-    else
-        echo "Installing $package..."
-        brew install "$package"
+if [[ "$SKIP_BREW" == false ]]; then
+    # Check if Homebrew is installed
+    if ! command -v brew &> /dev/null; then
+        echo "Homebrew is not installed. Please install it first:"
+        echo "https://brew.sh"
+        exit 1
     fi
-done
 
-# Install casks on macOS only
-if [[ "$OS" == "Darwin" ]]; then
-    echo "Installing macOS-specific casks..."
+    echo "Updating Homebrew..."
+    brew update
 
-    CASKS=(
-        font-fira-code-nerd-font
-        orbstack
+    # Install packages (available on both macOS and Linux)
+    PACKAGES=(
+        dotter
+        fish
+        dust
+        eza
+        gh
+        htop
+        go
+        jq
+        lazygit
+        neovim
+        asdf
+        bat
+        pandoc
+        ripgrep
+        zoxide
+        zellij
+        p7zip
     )
 
-    for cask in "${CASKS[@]}"; do
-        if brew list --cask "$cask" &>/dev/null; then
-            echo "✓ $cask already installed"
+    echo "Installing packages..."
+    for package in "${PACKAGES[@]}"; do
+        if brew list "$package" &>/dev/null; then
+            echo "✓ $package already installed"
         else
-            echo "Installing $cask..."
-            brew install --cask "$cask"
+            echo "Installing $package..."
+            brew install "$package"
         fi
     done
-else
-    echo "Skipping macOS-specific casks (not on macOS)"
+
+    # Install casks on macOS only
+    if [[ "$OS" == "Darwin" ]]; then
+        echo "Installing macOS-specific casks..."
+
+        CASKS=(
+            font-fira-code-nerd-font
+            orbstack
+        )
+
+        for cask in "${CASKS[@]}"; do
+            if brew list --cask "$cask" &>/dev/null; then
+                echo "✓ $cask already installed"
+            else
+                echo "Installing $cask..."
+                brew install --cask "$cask"
+            fi
+        done
+    else
+        echo "Skipping macOS-specific casks (not on macOS)"
+    fi
 fi
 
 # Set up GitHub CLI authentication
@@ -153,10 +175,18 @@ EOF
 # Deploy dotfiles
 echo ""
 echo "Deploying dotfiles..."
-if dotter deploy -v; then
-    echo "✓ Dotfiles deployed successfully!"
+if [[ "$FORCE_DEPLOY" == true ]]; then
+    if dotter deploy -f -v; then
+        echo "✓ Dotfiles deployed successfully (forced)!"
+    else
+        echo "⚠ Dotter deployment failed."
+    fi
 else
-    echo "⚠ Dotter deployment failed. You may need to run 'dotter deploy -f' to force deployment."
+    if dotter deploy -v; then
+        echo "✓ Dotfiles deployed successfully!"
+    else
+        echo "⚠ Dotter deployment failed. You may need to run 'dotter deploy -f' to force deployment."
+    fi
 fi
 
 echo ""
@@ -164,6 +194,8 @@ echo "✓ Setup complete!"
 echo ""
 echo "Configuration saved to: $USER_VARS_FILE"
 echo "To reconfigure, run: ./setup.sh --reset"
+echo "To force deployment, run: ./setup.sh --force-deploy"
+echo "To skip Homebrew packages, run: ./setup.sh --skip-brew"
 echo ""
 echo "Next steps:"
 echo "  1. Consider setting fish as your default shell: chsh -s \$(which fish)"
