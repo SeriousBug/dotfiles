@@ -81,8 +81,11 @@ if [[ "$SKIP_BREW" == false ]]; then
         echo "Installing macOS-specific casks..."
 
         CASKS=(
+	    iterm2
             font-fira-code-nerd-font
             orbstack
+	    rectangle-pro
+	    maccy
         )
 
         for cask in "${CASKS[@]}"; do
