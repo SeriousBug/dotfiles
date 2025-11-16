@@ -23,6 +23,7 @@ PACKAGES=(
     fish
     dust
     eza
+    gh
     htop
     go
     jq
@@ -66,6 +67,18 @@ if [[ "$OS" == "Darwin" ]]; then
     done
 else
     echo "Skipping macOS-specific casks (not on macOS)"
+fi
+
+# Set up GitHub CLI authentication
+if command -v gh &> /dev/null; then
+    if ! gh auth status &>/dev/null; then
+        echo ""
+        echo "GitHub CLI is installed but not authenticated."
+        echo "Please log in to GitHub CLI:"
+        gh auth login
+    else
+        echo "✓ GitHub CLI already authenticated"
+    fi
 fi
 
 echo "✓ Setup complete!"
