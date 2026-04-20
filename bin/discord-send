@@ -1,0 +1,93 @@
+#!/usr/bin/env bun
+
+import { basename, join } from "node:path";
+import { homedir } from "node:os";
+
+const configDir = process.env.XDG_CONFIG_HOME || join(homedir(), ".config");
+const webhookFile = join(configDir, "discord-send", "webhook");
+
+function usage() {
+  console.error(
+    "Usage: discord-send [--attach <file>] <message>\n" +
+      "\n" +
+      "Sends a message to a Discord channel via webhook.\n" +
+      `Reads the webhook URL from ${webhookFile}.`,
+  );
+}
+
+const args = Bun.argv.slice(2);
+let attachPath = null;
+const messageParts = [];
+
+for (let i = 0; i < args.length; i++) {
+  const arg = args[i];
+  if (arg === "--attach") {
+    attachPath = args[++i];
+    if (!attachPath) {
+      console.error("Error: --attach requires a file path");
+      process.exit(2);
+    }
+  } else if (arg.startsWith("--attach=")) {
+    attachPath = arg.slice("--attach=".length);
+  } else if (arg === "-h" || arg === "--help") {
+    usage();
+    process.exit(0);
+  } else {
+    messageParts.push(arg);
+  }
+}
+
+const message = messageParts.join(" ");
+
+const webhookFileHandle = Bun.file(webhookFile);
+if (!(await webhookFileHandle.exists())) {
+  console.error(
+    `Error: webhook file not found: ${webhookFile}\n` +
+      "Create it and write your Discord webhook URL inside.",
+  );
+  process.exit(1);
+}
+const webhookUrl = (await webhookFileHandle.text()).trim();
+if (!webhookUrl) {
+  console.error(`Error: webhook file is empty: ${webhookFile}`);
+  process.exit(1);
+}
+
+if (!message && !attachPath) {
+  usage();
+  process.exit(2);
+}
+
+let body;
+const headers = {};
+
+if (attachPath) {
+  const file = Bun.file(attachPath);
+  if (!(await file.exists())) {
+    console.error(`Error: file not found: ${attachPath}`);
+    process.exit(1);
+  }
+  const filename = basename(attachPath);
+  const payload = { attachments: [{ id: 0, filename }] };
+  if (message) payload.content = message;
+
+  const form = new FormData();
+  form.append("payload_json", JSON.stringify(payload));
+  form.append("files[0]", file, filename);
+  body = form;
+} else {
+  headers["Content-Type"] = "application/json";
+  body = JSON.stringify({ content: message });
+}
+
+const response = await fetch(webhookUrl, { method: "POST", headers, body });
+
+if (!response.ok) {
+  const text = await response.text();
+  console.error(
+    `Error: Discord returned ${response.status} ${response.statusText}\n${text}`,
+  );
+  process.exit(1);
+}
+
+console.log("Message sent successfully");

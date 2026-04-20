@@ -60,5 +60,21 @@ depends = []
 
 [asdf.variables]
 
+[claude]
+depends = []
+
+[claude.files]
+"claude/CLAUDE.md" = "~/.claude/CLAUDE.md"
+
+[claude.variables]
+
+[bin]
+depends = []
+
+[bin.files]
+"bin/discord-send" = "~/.local/bin/discord-send"
+
+[bin.variables]
+
 [settings]
 default_target_type = "automatic"
