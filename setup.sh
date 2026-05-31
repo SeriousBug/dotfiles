@@ -259,6 +259,7 @@ echo ""
 echo "Setting up directory symlinks..."
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ensure_dir_symlink "$DOTFILES_DIR/fish/functions" "~/.config/fish/functions" "$FORCE_DEPLOY"
+ensure_dir_symlink "$DOTFILES_DIR/claude/skills" "~/.claude/skills" "$FORCE_DEPLOY"
 
 echo ""
 echo "✓ Setup complete!"

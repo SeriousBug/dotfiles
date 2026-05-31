@@ -73,6 +73,7 @@ depends = []
 
 [bin.files]
 "bin/discord-send" = "~/.local/bin/discord-send"
+"bin/claude-token-count" = "~/.local/bin/claude-token-count"
 
 [bin.variables]
 

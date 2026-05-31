@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+#
+# claude-token-count — count tokens for text using Anthropic's
+# /v1/messages/count_tokens endpoint (the exact Claude tokenizer).
+#
+# The API key is pulled from 1Password at runtime via the `op` CLI; it is
+# never written to disk and is passed to curl via a config file on /dev/fd
+# so it stays out of the process argument list.
+#
+# Usage:
+#   claude-token-count "some text"          # count the argument(s)
+#   claude-token-count --file notes.md      # count a file's contents
+#   some-command | claude-token-count       # count piped stdin
+#
+# Options:
+#   --file PATH     read the text to count from PATH
+#   --model NAME    model whose tokenizer to use (default: $CLAUDE_TOKEN_COUNT_MODEL
+#                   or claude-sonnet-4-6)
+#   --raw           print the raw JSON response instead of just the number
+#   -h, --help      show this help
+#
+# Requires: op (1Password CLI, signed in), curl, jq.
+
+set -euo pipefail
+
+# 1Password reference for the Anthropic API key (from the item's share link).
+OP_ACCOUNT="EADC56ZW7NARRJTNZKSRBYRQNU"
+OP_REF="op://m6vn2ie66x7ysrjq73q45oiyeu/te6tuanr426ohu33t2qhqzjrb4/credential"
+
+MODEL="${CLAUDE_TOKEN_COUNT_MODEL:-claude-sonnet-4-6}"
+RAW=false
+FILE=""
+declare -a TEXT_PARTS=()
+
+usage() { sed -n '2,/^set -euo/{/^set -euo/!p}' "$0" | sed 's/^# \{0,1\}//'; }
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --file) FILE="${2:?--file requires a path}"; shift 2 ;;
+    --file=*) FILE="${1#--file=}"; shift ;;
+    --model) MODEL="${2:?--model requires a name}"; shift 2 ;;
+    --model=*) MODEL="${1#--model=}"; shift ;;
+    --raw) RAW=true; shift ;;
+    -h|--help) usage; exit 0 ;;
+    *) TEXT_PARTS+=("$1"); shift ;;
+  esac
+done
+
+for tool in op curl jq; do
+  command -v "$tool" >/dev/null 2>&1 || { echo "Error: '$tool' is required but not installed." >&2; exit 1; }
+done
+
+# Resolve the text to count: --file wins, then positional args, then stdin.
+if [[ -n "$FILE" ]]; then
+  [[ -r "$FILE" ]] || { echo "Error: cannot read file: $FILE" >&2; exit 1; }
+  TEXT="$(cat -- "$FILE")"
+elif [[ ${#TEXT_PARTS[@]} -gt 0 ]]; then
+  TEXT="${TEXT_PARTS[*]}"
+elif [[ ! -t 0 ]]; then
+  TEXT="$(cat)"
+else
+  echo "Error: no input. Provide text as an argument, --file, or via stdin." >&2
+  exit 2
+fi
+
+[[ -n "$TEXT" ]] || { echo "Error: input is empty." >&2; exit 2; }
+
+# Build the request body, encoding the text safely as a JSON string.
+BODY="$(jq -n --arg model "$MODEL" --arg text "$TEXT" \
+  '{model: $model, messages: [{role: "user", content: $text}]}')"
+
+# Fetch the key into a variable (local to this process) and hand it to curl
+# through a --config file via process substitution, keeping it out of argv.
+API_KEY="$(op read --account "$OP_ACCOUNT" "$OP_REF")"
+
+RESPONSE="$(curl -sS https://api.anthropic.com/v1/messages/count_tokens \
+  --config <(printf 'header = "x-api-key: %s"\n' "$API_KEY") \
+  -H "anthropic-version: 2023-06-01" \
+  -H "content-type: application/json" \
+  -d "$BODY")"
+unset API_KEY
+
+if $RAW; then
+  echo "$RESPONSE"
+  exit 0
+fi
+
+# Surface API errors instead of printing "null".
+if echo "$RESPONSE" | jq -e 'has("error")' >/dev/null 2>&1; then
+  echo "Error from Anthropic API:" >&2
+  echo "$RESPONSE" | jq -r '.error.type + ": " + .error.message' >&2
+  exit 1
+fi
+
+echo "$RESPONSE" | jq -r '.input_tokens'
