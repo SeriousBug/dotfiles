@@ -62,3 +62,18 @@ diving in, decide whether you actually know how to proceed:
   before acting. Surface the few plausible next steps you inferred and let them
   pick or correct you. If there is any doubt, opt to ask the user first.
 
+## If the compact report left something unclear
+
+Compaction is lossy. If — and **only if absolutely necessary** — a specific
+detail you need to proceed is missing or ambiguous (an exact command that ran,
+a file path, what a tool returned, the precise wording of an earlier request),
+search the full session with the companion **cc-query-chat** skill instead of
+reading the raw log:
+
+```sh
+python3 ~/.claude/skills/cc-query-chat/query_session.py --chat '<same id or name>' --keyword 'the detail you need'
+```
+
+The compact report is meant to stand on its own — reach for this only to close a
+concrete gap, never to re-read the session.
+
