@@ -1,0 +1,206 @@
+#!/usr/bin/env fish
+#
+# archive-coding-project — move a coding project into ~/.local/archives/ and
+# strip it down to minimize disk use.
+#
+# After moving the folder, this runs `git clean -dxf` to remove all
+# ignored/untracked files (build artifacts, node_modules, etc.). If the repo
+# uses git LFS, it also drops the local LFS object cache so those files must be
+# re-fetched on the next checkout. Finally it compresses the folder into a
+# single .7z archive with 7z and removes the uncompressed copy, reporting how
+# much disk space was reclaimed.
+#
+# Usage:
+#   archive-coding-project <folder>            Archive a project
+#   archive-coding-project --restore <file.7z> Restore an archive into the cwd
+
+function usage
+    echo "Usage:" >&2
+    echo "  archive-coding-project <folder>            Archive a project" >&2
+    echo "  archive-coding-project --restore <file.7z> Restore into the cwd" >&2
+    echo "" >&2
+    echo "Archiving moves <folder> into ~/.local/archives/, runs 'git clean -dxf'," >&2
+    echo "drops git LFS objects, and compresses it into a .7z to minimize disk use." >&2
+end
+
+# Format a size given in KB as a human-readable string.
+function human_kb --argument-names kb
+    echo $kb | awk '{
+        k=$1
+        if (k < 1024) printf "%d KB", k
+        else if (k < 1048576) printf "%.1f MB", k/1024
+        else printf "%.2f GB", k/1048576
+    }'
+end
+
+# Size of a path in KB (apparent disk usage). Works on files and directories.
+function size_kb --argument-names path
+    du -sk -- $path | awk '{print $1}'
+end
+
+if not type -q 7z
+    echo "Error: '7z' not found on PATH (install p7zip)" >&2
+    exit 1
+end
+
+# ---------------------------------------------------------------------------
+# Restore mode
+# ---------------------------------------------------------------------------
+if test (count $argv) -ge 1; and test "$argv[1]" = --restore
+    if test (count $argv) -ne 2
+        usage
+        exit 1
+    end
+
+    set -l archive $argv[2]
+
+    if not test -f $archive
+        echo "Error: archive '$archive' not found" >&2
+        exit 1
+    end
+
+    set -l abs_archive (realpath -- $archive)
+
+    # Figure out the top-level entries inside the archive so we can refuse to
+    # clobber existing paths in the cwd. In `7z l -slt` output the first
+    # `Path =` line is the archive's own filename, so we drop it (tail +2), then
+    # reduce each entry to its first path component and dedupe.
+    set -l tops (7z l -slt -- $abs_archive \
+        | string match -r '^Path = .+' \
+        | string replace 'Path = ' '' \
+        | tail -n +2 \
+        | string replace -r '/.*' '' \
+        | sort -u)
+
+    if test (count $tops) -eq 0
+        echo "Error: could not read archive contents" >&2
+        exit 1
+    end
+
+    for t in $tops
+        if test -e ./$t
+            echo "Error: '$t' already exists in the current directory" >&2
+            exit 1
+        end
+    end
+
+    echo "Restoring "(string join ', ' $tops)" from $abs_archive into "(pwd)"..."
+    if 7z x -- $abs_archive
+        echo ""
+        for t in $tops
+            echo "Restored "(pwd)"/$t"
+        end
+        echo "(The archive is left in place; delete it with: rm -- $abs_archive)"
+    else
+        echo "Error: extraction failed" >&2
+        exit 1
+    end
+    exit 0
+end
+
+# ---------------------------------------------------------------------------
+# Archive mode
+# ---------------------------------------------------------------------------
+if test (count $argv) -ne 1
+    usage
+    exit 1
+end
+
+set -l src $argv[1]
+
+# Strip a trailing slash so basename/dirname behave predictably.
+set src (string trim --right --chars=/ -- $src)
+
+if not test -d $src
+    echo "Error: '$src' is not a directory" >&2
+    exit 1
+end
+
+# Resolve to an absolute path.
+set -l abs_src (realpath -- $src)
+set -l name (basename -- $abs_src)
+
+set -l archive_dir "$HOME/.local/archives"
+set -l dest "$archive_dir/$name"
+set -l archive_file "$dest.7z"
+
+if test -e $dest
+    echo "Error: destination '$dest' already exists" >&2
+    exit 1
+end
+
+if test -e $archive_file
+    echo "Error: archive '$archive_file' already exists" >&2
+    exit 1
+end
+
+# Measure the original footprint before we touch anything, so we can report the
+# real space reclaimed (original folder vs. final compressed archive).
+set -l orig_kb (size_kb $abs_src)
+
+echo "About to archive:"
+echo "  from: $abs_src"
+echo "  to:   $archive_file"
+echo ""
+echo "This will:"
+echo "  - move the folder into $archive_dir"
+echo "  - run 'git clean -dxf' (deletes all untracked & ignored files)"
+echo "  - drop local git LFS objects if the repo uses LFS"
+echo "  - compress it into a .7z and remove the uncompressed folder"
+echo ""
+read -l -P "Proceed? [y/N] " confirm
+
+if not string match -qi y -- $confirm
+    echo "Aborted."
+    exit 1
+end
+
+mkdir -p $archive_dir
+
+echo "Moving folder..."
+mv -- $abs_src $dest
+
+# Operate on the archived copy via absolute paths. We deliberately avoid
+# pushd/popd: this script may have been launched from inside the folder we just
+# moved, in which case returning to the original cwd would fail.
+if test -d "$dest/.git"
+    echo "Running 'git clean -dxf'..."
+    git -C $dest clean -dxf
+
+    # If the repo uses git LFS, drop the local object cache so the files have to
+    # be re-fetched on the next checkout. We use `git lfs prune --recent`, which
+    # is aggressive (it ignores the "recent commits" retention window) but still
+    # safe: `--verify-remote` only deletes objects confirmed to exist on the
+    # remote, so nothing unpushed is lost. Re-checkout pulls them back.
+    if type -q git-lfs; and test -d "$dest/.git/lfs"
+        echo "Dropping git LFS objects..."
+        git -C $dest lfs prune --recent --verify-remote
+    end
+else
+    echo "Note: '$name' is not a git repository; skipping git clean / LFS steps."
+end
+
+# Compress into a single .7z, then drop the uncompressed folder. We cd into
+# archive_dir so the archive stores a clean relative path ($name/...) rather
+# than the absolute path. `-mx=9` is max compression. cd in this subprocess
+# does not affect the caller's shell.
+echo "Compressing into $archive_file..."
+if cd $archive_dir; and 7z a -mx=9 -- "$name.7z" "$name"
+    rm -rf $dest
+
+    set -l archive_kb (size_kb $archive_file)
+    set -l saved_kb (math "$orig_kb - $archive_kb")
+    set -l pct 0
+    if test $orig_kb -gt 0
+        set pct (math -s0 "100 * $saved_kb / $orig_kb")
+    end
+
+    echo ""
+    echo "Archived to $archive_file"
+    echo "  original: "(human_kb $orig_kb)
+    echo "  archive:  "(human_kb $archive_kb)
+    echo "  saved:    "(human_kb $saved_kb)" ($pct%)"
+else
+    echo "Error: 7z compression failed; leaving uncompressed folder at $dest" >&2
+    exit 1
+end
