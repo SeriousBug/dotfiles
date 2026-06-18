@@ -3,3 +3,7 @@
 .dotter/cache.toml
 .dotter/cache/
 .dotter/user_vars.sh
+
+# Mudpuppy skills (not tracked)
+claude/skills/mudpuppy-implementation-review/
+claude/skills/mudpuppy-pr-review/
