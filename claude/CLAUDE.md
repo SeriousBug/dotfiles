@@ -9,14 +9,8 @@
 If work is parallel or cleanly scoped out, consider handing off to subagents to preserve context.
 Do **not** use fork subagents. Only separate agents with clear scope or a clear goal.
 
-## Notifying me / sharing images via Discord
-
-The `discord-send` CLI is on my PATH. Use it whenever I ask you to notify me when something is done, or to show me an image or video — send it to my Discord and I'll see it there.
-
-```sh
-discord-send 'Build finished successfully'
-discord-send --attach ./screenshot.png 'Here is the rendered page'
-```
+## App and Documentation Copy
+When writing copy, make sure to write it from the perspective of the **end user**. For example, do not write "These stay private until you share them" when there is a share button visible or indicator in UI for visibility. You don't have to explain development decisions in the app.
 
 ## Responding to reviews
 
@@ -29,6 +23,14 @@ Commit often. It's better to commit things than to leave changes hanging for a l
 Only comment what is necessary to explain **why** the code is doing something. Do not write comments for **what** the code is doing, that should be obvious from the code itself.
 Do not write comments for anything obvious, anything that an expert can be expected to know, or anything already documented elsewhere.
 Comments are permanent part of the code! Only comment what should be permanently stored along with the code, moment to moment coding decisions, what old versions of the code were before refactors etc. do not belong in comments.
+
+**No useless comments!** Never add a comment when code itself is clear.
+
+Bad, because obvious from code:
+```
+# There is no root package.json, so the pnpm version comes from web/.
+package_json_file: web/package.json
+```
 
 ## Writing Style
 
