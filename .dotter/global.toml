@@ -52,13 +52,13 @@ depends = []
 
 [htop.variables]
 
-[asdf]
+[mise]
 depends = []
 
-[asdf.files]
-"asdf/.tool-versions" = "~/.tool-versions"
+[mise.files]
+"mise/config.toml" = "~/.config/mise/config.toml"
 
-[asdf.variables]
+[mise.variables]
 
 [claude]
 depends = []

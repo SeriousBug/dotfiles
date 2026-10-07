@@ -3,20 +3,12 @@ if status is-interactive
 end
 
 eval ({{brew_path}}/bin/brew shellenv)
-set -gx ASDF_DIR {{brew_path}}/opt/asdf/libexec
-
-# ASDF configuration code
-if test -z $ASDF_DATA_DIR
-    set _asdf_shims "$HOME/.asdf/shims"
-else
-    set _asdf_shims "$ASDF_DATA_DIR/shims"
-end
-
-# Do not use fish_add_path (added in Fish 3.2) because it
-# potentially changes the order of items in PATH
-if not contains $_asdf_shims $PATH
-    set -gx --prepend PATH $_asdf_shims
-end
-set --erase _asdf_shims
+set -gx DOTNET_ROOT "$HOMEBREW_PREFIX/opt/dotnet@8/libexec"
+mise activate fish --shims | source
 zoxide init fish | source
 
+set -gx --prepend PATH "$HOME/.bun/bin"
+set -gx --prepend PATH "$HOME/go/bin"
+
+# Added by Antigravity CLI installer
+set -gx PATH "$HOME/.local/bin" $PATH

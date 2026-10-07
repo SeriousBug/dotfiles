@@ -20,7 +20,7 @@ Run the setup script to install dependencies via Homebrew and deploy configurati
 
 The setup script installs the following packages via Homebrew:
 
-- dotter, fish, dust, eza, gh, htop, go, jq, lazygit, neovim, asdf, bat, pandoc, ripgrep, zoxide, zellij, p7zip
+- dotter, fish, dust, eza, gh, htop, go, jq, lazygit, neovim, mise, bat, pandoc, ripgrep, zoxide, zellij, p7zip
 
 **macOS only:**
 - font-fira-code-nerd-font, orbstack, iterm2, rectangle-pro, maccy
@@ -32,4 +32,4 @@ The setup script installs the following packages via Homebrew:
 - Fish shell
 - Zellij
 - Htop
-- ASDF
+- mise
