@@ -115,7 +115,6 @@ if [[ "$SKIP_BREW" == false ]]; then
         eza
         gh
         htop
-        go
         jq
         lazygit
         neovim
