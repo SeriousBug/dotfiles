@@ -58,3 +58,7 @@ Examples:
 - Good: This is a design flaw.
 - Good: This approach has limitations.
 
+
+## Chrome integration
+
+Use the Chrome browser on my laptop: deviceId `075014a5-bc25-4660-9bce-754969330c17`. Select it with `select_browser` when several browsers are connected.
