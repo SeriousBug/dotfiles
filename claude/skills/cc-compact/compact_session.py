@@ -107,9 +107,39 @@ def current_session():
     return (cand if os.path.isdir(cand) else None), sid
 
 
+def has_conversation(path):
+    """True if the log holds at least one human-typed prompt *and* at least one
+    assistant reply. Filters out sessions that never really happened: empty
+    logs, and ones whose only content is slash commands like `/clear` or
+    `/mcp` (those are wrapped in <command-name> tags, so they are not genuine
+    prompts, and they produce no assistant record)."""
+    prompt = assistant = False
+    try:
+        fh = open(path, encoding="utf-8", errors="replace")
+    except OSError:
+        return False
+    with fh:
+        for line in fh:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                rec = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if rec.get("type") == "assistant":
+                assistant = True
+            elif is_genuine_prompt(rec):
+                prompt = True
+            if prompt and assistant:
+                return True
+    return False
+
+
 def resolve_latest():
-    """Newest session log in the current project, excluding the caller's own
-    session, so compacting right after `/clear` lands on the just-cleared one."""
+    """Newest real session log in the current project, excluding the caller's
+    own session, so compacting right after `/clear` lands on the just-cleared
+    one. Sessions with no actual conversation are skipped."""
     project_dir, sid = current_session()
     if project_dir:
         pool = glob.glob(os.path.join(project_dir, "*.jsonl"))
@@ -119,9 +149,12 @@ def resolve_latest():
         pool = [p for p in pool if os.path.basename(p) != f"{sid}.jsonl"]
     if not pool:
         sys.exit("No previous session found to compact in this project")
-    latest = max(pool, key=os.path.getmtime)
-    sys.stderr.write(f"Auto-selected latest session: {latest}\n")
-    return latest
+    for cand in sorted(pool, key=os.path.getmtime, reverse=True):
+        if has_conversation(cand):
+            sys.stderr.write(f"Auto-selected latest session: {cand}\n")
+            return cand
+        sys.stderr.write(f"Skipping session with no conversation: {cand}\n")
+    sys.exit("No previous session with an actual conversation found in this project")
 
 
 # A compacted session's log records the cc-compact run it did on its own

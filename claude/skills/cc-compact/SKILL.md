@@ -22,7 +22,9 @@ The argument is one of three forms:
   `/clear` and then `cc-compact` to reload the session they just cleared. Run
   the script with no selector; it auto-picks the most recently active session
   in the current project, **excluding this session** (the fresh one `/clear`
-  created). This emulates Claude Code's built-in `/compact`.
+  created), and skipping sessions with no real conversation (empty logs, or
+  ones holding only slash commands like `/clear` or `/mcp` with no agent
+  reply). This emulates Claude Code's built-in `/compact`.
 - **A session id** — when invoked like `/resume claude --resume <id>` or
   `cc-compact <id>`, the user already gave you the UUID. Pass it as `--id`.
 - **A session name / title** — free text. Pass it as `--title`; the script
