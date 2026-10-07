@@ -1,0 +1,16 @@
+# initialise completions with ZSH's compinit
+autoload -Uz compinit && compinit
+
+# Check if parent process is not fish and we're in an interactive shell
+#if [[ $(ps -o comm= -p $PPID) != "fish" && -o interactive && ${SHLVL} -lt 10 ]]
+#then
+#   # Check if this is a login shell
+#   [[ -o login ]] && LOGIN_OPTION='--login' || LOGIN_OPTION=''
+#   exec fish $LOGIN_OPTION
+#fi
+
+# Created by `pipx` on 2024-12-19 23:09:32
+export PATH="$PATH:$HOME/.local/bin"
+
+# Added by Antigravity CLI installer
+export PATH="$HOME/.local/bin:$PATH"

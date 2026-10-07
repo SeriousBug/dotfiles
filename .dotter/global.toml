@@ -36,6 +36,16 @@ depends = []
 
 [fish.variables]
 
+[zsh]
+depends = []
+
+[zsh.files]
+"zsh/zshenv" = "~/.zshenv"
+"zsh/zprofile" = "~/.zprofile"
+"zsh/zshrc" = "~/.zshrc"
+
+[zsh.variables]
+
 [zellij]
 depends = []
 

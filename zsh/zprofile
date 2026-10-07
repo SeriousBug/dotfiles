@@ -1,0 +1,11 @@
+eval "$({{brew_path}}/bin/brew shellenv)"
+
+# Created by `pipx` on 2024-12-19 23:09:32
+export PATH="$PATH:$HOME/.local/bin"
+
+# Added by OrbStack: command-line tools and integration
+# This won't be added again if you remove it.
+source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+
+# Added by Antigravity CLI installer
+export PATH="$HOME/.local/bin:$PATH"

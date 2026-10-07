@@ -30,6 +30,7 @@ The setup script installs the following packages via Homebrew:
 - Git
 - Neovim
 - Fish shell
+- Zsh
 - Zellij
 - Htop
 - mise
