@@ -14,3 +14,6 @@ __pycache__/
 
 # htop runtime history
 htop/htop_history
+
+# Claude Code synced skills (managed by Claude Code)
+claude/skills/synced/
